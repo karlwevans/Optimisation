@@ -1,0 +1,364 @@
+---
+title: "Optimisation Assignment 5"
+author: "Karl Evans"
+date: "29/05/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Q1
+a)
+minimse $f(x,y,z)=-(2xy+2xz+2yz)$
+subject to $l_1(x,y,z)=xyz-V\leq0$, $-l_1(x,y,z)=V-xyz=0$and $g_2(x,y,z)=-(x,y,z)\leq0$
+
+b) A Regular Point is when constraint gradient vectors are linearly independent.  
+$$
+\begin{aligned}
+\nabla l_1(x,y,z)=(yz,xz,yx) = 0  \\
+\nabla -l_1(x,y,z)=(-yz,-xz,-yx) = 0 \\  
+\nabla g_2(x,y,z)=(-1,-1,-1) = 0  \\
+\end{aligned}
+$$
+In this case the gradient vectors are linearly independent which allows the extension of the KKT conditions to non-convex problems such as this to ensure finding a minimum value.
+
+c) 
+$$
+\begin{aligned}
+h&=-(2xy+2xz+2yz) + \lambda(xyz-V) \\
+\frac{\partial h}{\partial x}&=-2y-2z+ \lambda yz= 0 \\
+\frac{\partial h}{\partial y}&=-2x-2z + \lambda xz=0 \\
+\frac{\partial h}{\partial z}&=-2x-2y + \lambda xy=0 \\
+\frac{\partial h}{\partial \lambda}&=xyz-V=0 \\
+\lambda &= \frac{2y+2z}{yz} = \frac{2}{z} + \frac{2}{y} \\
+\lambda &= \frac{2x+2z}{xz} =\frac{2}{z} + \frac{2}{x} \\ 
+\lambda &= \frac{2x+2y}{xy}=\frac{2}{y} + \frac{2}{x} \\
+\frac{2}{z} + \frac{2}{y} =\frac{2}{z} + \frac{2}{x}=\frac{2}{y} + \frac{2}{x} &\Rightarrow x=y=z=V^{\frac{1}{3}}\\
+\end{aligned}
+$$
+The optimal solution is a cube with $\mathbf{x}*=(V^{\frac{1}{3}}, V^{\frac{1}{3}}, V^{\frac{1}{3}})$.
+
+\newpage
+# Q2
+$f(x_1,x_2) = x_1^2+x_2^2$ subject to $x_1 \ge 1$ and $2x_1+x_2 \ge4$
+a) Yes, as seen in the figure below, by looking at the level curves closest to 0,0, a minimum exists along the constraint $2x_1+x_2 =4$  
+
+![Plot of level curves f(x) and constraints](Ass5Q2.png){width=50%}
+
+b) 
+$$
+\begin{aligned}
+f(x_1,x_2)&= \frac{1}{2}x^THx+f^Tx+c \\ 
+H&=\begin{bmatrix}
+2 & 0\\
+0 & 2\\
+\end{bmatrix}, \ f = (0,0)\\
+\text{subject to} \ Ax &\leq b\\ 
+A&=\begin{bmatrix}
+-1 & 0 \\
+-2 &-1\\
+\end{bmatrix}, \ 
+b=(-1,-4)^T \\
+\end{aligned}
+$$
+H is positive definite and so $f(x_1,x_2)$ is a convex function. Both constraint spaces $g_1$ and $g_2$ are also both convex since $\forall x_1,x_2 \in C$ and $t \in[0,1]$, $tx_1+(1-t)x_2 \in C$ in both cases.
+
+c) 
+$$
+\begin{aligned}
+\nabla f(x_1,x_2) =  \begin{bmatrix}
+2x_1 \\
+2x_2\\
+\end{bmatrix} \\
+\nabla g_1(x_1,x_2) = \begin{bmatrix}
+-1 \\
+0\\
+\end{bmatrix} \\
+\nabla g_2(x_1,x_2) = \begin{bmatrix}
+-2 \\
+-1\\
+\end{bmatrix} \\
+KKT-1: \nabla f(\mathbf{x})+\lambda_1 \nabla g_1(\mathbf{x})+ \lambda_2  \nabla g_2(\mathbf{x})=0 \\
+\begin{bmatrix}
+2x_1 \\
+2x_2\\
+\end{bmatrix} +\lambda_1 \begin{bmatrix}
+-1 \\
+0\\
+\end{bmatrix} +\lambda_2 \begin{bmatrix}
+-2 \\
+-1\\
+\end{bmatrix} \\
+KKT-2: \lambda_1(1-x_1) =0\\
+\lambda_2(4-2x_1-x_2) =0\\
+KKT-3: 1-x_1 \leq 0\\ 
+4-2x_1-x_2 \leq 0 \\
+KKT-4: \lambda_1, \lambda_2 \geq 0\\
+\end{aligned}
+$$
+
+\newpage
+Case 1: $I(\mathbf{x}^*)= \emptyset$
+$$
+\begin{aligned}
+\lambda_1, \lambda_2 =0,  \\
+\nabla f =  \begin{bmatrix}
+2x_1 \\
+2x_2\\
+\end{bmatrix} = \begin{bmatrix} 0 \\
+0\\
+\end{bmatrix} \Rightarrow x_1=x_2=0\\
+f(0,0) = 0 \Rightarrow \text{Not feasible}
+\end{aligned}
+$$
+Case 2: $I(\mathbf{x}^*)=\{1\}$
+$$
+\begin{aligned}
+\lambda_2=0, g_1 = x_1-1=0 \\
+\nabla f +\lambda_1\nabla g_1=  \begin{bmatrix}
+2x_1 -\lambda_1\\
+2x_2\\
+\end{bmatrix}=\begin{bmatrix}
+0\\
+0\\
+\end{bmatrix}\\
+\Rightarrow x_1=1, x_2=0\\
+f(1,0)=1 \Rightarrow \text{Not feasible}
+\end{aligned}
+$$
+Case 3: $I(\mathbf{x}^*)=\{2\}$
+$$
+\begin{aligned}
+\lambda_1 =0, g_2=4-2x_1-x_2=0 \Rightarrow x_2=4-2x_1\\
+2x_1-2\lambda&= 0...(1)\\
+2x_2-\lambda&= 0 \\
+\text{substitute in} \ 2\times g_2:8-4x_1-\lambda&=0...(2)\\
+-2\times (2) \ \text{and add to (1)}:
+-16+10x_1&=0 \\
+x_1=1.6, x_2&=0.8 \\
+f(1.6,0.8)&=3.2
+\end{aligned}
+$$
+Case 4: $I(\mathbf{x}^*)=\{1,2\}$
+$$
+\begin{aligned}
+g_1=x_1=1, \ g_2=2x_1+x_2&=4 \\
+\Rightarrow x_2&=2 \\
+f(1,2)&=5 \Rightarrow \text{not minimum}
+\end{aligned}
+$$
+So $\mathbf{x}*=(\frac{8}{5},\frac{4}{5})$ is the minimiser.
+
+\newpage
+# Q3
+$$
+\begin{aligned}
+M &=\begin{bmatrix}
+4 & -2 & 0 \\
+2 & 1 & -1 \\
+-2 & -3 & 1 \\
+\end{bmatrix}
+\end{aligned}
+$$
+a) Nullspace S
+   
+    V0=null(M)
+=(0.2182, 0.4364, 0.8729)
+
+b) Projection matrix
+
+     Ps=V0V0`
+
+$$
+\begin{aligned}
+Ps &=\begin{bmatrix}
+\frac{1}{21} & \frac{2}{21} & \frac{4}{21} \\
+\frac{2}{21} & \frac{4}{21} & \frac{8}{21} \\
+\frac{8}{21} & \frac{8}{21} & \frac{16}{21} \\
+\end{bmatrix}
+\end{aligned}
+$$
+
+Compared to formula, note:
+$$
+\begin{aligned}
+MM' &=\begin{bmatrix}
+20 & 6 & 14 \\
+6 & 6 & 0 \\
+14 & 0 & 14 \\
+\end{bmatrix}
+\end{aligned}
+$$
+But Det(M*M') = 20(84)-6(84)+14(-84) = 0 so MM' is singular and requires singular value decomposition to find the inverse. Using 'pinv':
+
+     Ps=I-(M'*(pinv(M*M'))*M)
+
+$$
+\begin{aligned}
+Ps &=\begin{bmatrix}
+\frac{1}{21} & \frac{2}{21} & \frac{4}{21} \\
+\frac{2}{21} & \frac{4}{21} & \frac{8}{21} \\
+\frac{8}{21} & \frac{8}{21} & \frac{16}{21} \\
+\end{bmatrix}
+\end{aligned}
+$$
+So answers agree with each other.
+
+c) $\mathbf{y}=(-3,-3,4)^T$
+
+    format rat  
+    y=[-3; -3; 4]  
+    u=Ps*y  
+    w=y-u 
+    
+Output  
+$u=(\frac{1}{3},\frac{2}{3},\frac{4}{3})$  
+$w=(\frac{-10}{3},\frac{-11}{3},\frac{8}{3})$  
+
+\newpage
+# Q4 Quadratic Gradient Projection
+
+    function xk = QuadGradProj(H, f1,A,b,xk)
+    % Gradient Projection Algorithm to try to minimise 
+    % quadratic x'*H*x/2+f1'*x 
+    % such that A*x<=b
+    % starting from point xk. 
+    % Adapted from Algorithm 4.2 and 4.3
+    % KE May 2022
+    maxSteps=1000; % max number of iterations
+    w=-ones([length(xk),1]);
+    tiny=1e-10;
+    if max(A*xk-b)>tiny, error('Infeasible initial point'),end
+    Ik=find(abs(A*xk-b)<tiny);
+    while w < tiny;
+        for k=1:maxSteps;
+            % find descent direction
+             M=A(Ik,:);
+             V0=null(M);
+             gradf=H*xk+f1;
+             uk=-V0*(V0'*gradf);
+             if norm(uk)>tiny;
+                 % find max possible feasible lambda
+                 Auk=A*uk; 
+                 i=find(Auk>tiny);
+                 beta=min([(b(i)-A(i,:)*xk)./Auk(i);inf]);
+                 % minimise quadratic in search direction
+                 lambdak=min(beta, -uk'*gradf/(uk'*H*uk));
+                 xk=xk+lambdak*uk
+                 % exit if steps become too small
+                 if norm(lambdak*uk) < 0.001
+                     return
+                 end
+                 Ik=find(abs(A*xk-b)<tiny);
+             else %remove 1 active constraint
+                w=-M'\gradf;
+                j=find(w == min(w));
+                Ik(j)=[];
+             end
+        end
+    end
+    warning('too many iterations')
+    end
+
+Inputs
+
+    xk=[1;0;3];
+    H=[1 0 0 ;0 1 0 ;0 0 1];
+    f1=[1; -1; -1] ;
+    A=[-1 0 0;0 -1 0] ;
+    b=[0;0] ;
+Call function
+
+    xk=QuadGradProject(H, f1,A,b,xk)
+    
+Output
+$x_1$ = (0,0,2)
+$x_2$ = (0,0,1)
+$x_3$ = (0,0,1)
+
+\newpage
+# Q5
+a)
+$$
+\begin{aligned}
+f_1&= r_1r_2r_3 \\
+f_2&= r_4r_5r_6\\
+f_3&= r_7r_8r_9\\
+f_4&= r_1r_4r_7\\
+f_5&= r_2r_5r_8\\
+f_6&= r_3r_6r_9\\
+f_7&= r_2r_4\\
+f_8&= r_3r_5r_7\\
+f_9&= r_6r_8\\
+f_{10}&= r_2r_6\\
+f_{11}&= r_1r_5r_9\\
+f_{12}&= r_4r_8\\
+\end{aligned}
+$$
+
+b)
+$$
+\begin{aligned}
+x_i&=log(1/r_i) = -log(r_i)\\
+-log (f_1)&= log(r_1)+log(r_2)+log(r_3) \\
+b_1=-log (f_1)&= x_1+x_2+x_3\\
+b_2=-log (f_2)&= x_4+x_5+x_6\\
+b_3=-log (f_3)&= x_7+x_8+x_9\\
+b_4=-log (f_4)&= x_1+x_4+x_7\\
+b_5=-log (f_5)&= x_2+x_5+x_8\\
+b_6=-log (f_6)&=x_3+x_6+x_9\\
+b_7=-log (f_7)&= x_2+x_4\\
+b_8=-log (f_8)&= x_3+x_5+x_7\\
+b_9=-log (f_9)&= x_6+x_8\\
+b_{10}=-log (f_{10})&=x_2+x_6\\
+b_{11}=-log (f_{11})&= x_1+x_5+x_9\\
+b_{12}=-log (f_{12})&= x_4+x_8\\
+\end{aligned}
+$$
+$b_j$ is $-\log(f_j)$  
+$x_i$ is a pseudo-density because it is inversely proportional to X-ray transmission of the cell and so is a transformed measure of the cell density.
+
+\newpage
+c)
+
+    M=[1 1 1 0 0 0 0 0 0;   
+        0 0 0 1 1 1 0 0 0;   
+        0 0 0 0 0 0 1 1 1;   
+        1 0 0 1 0 0 1 0 0;  
+        0 1 0 0 1 0 0 1 0;  
+        0 0 1 0 0 1 0 0 1;  
+        0 1 0 1 0 0 0 0 0;  
+        0 0 1 0 1 0 1 0 0;  
+        0 0 0 0 0 1 0 1 0;  
+        0 1 0 0 0 1 0 0 0;  
+        1 0 0 0 1 0 0 0 1;  
+        0 0 0 1 0 0 0 1 0]  
+    A=M'*M  
+    C=-eye(9)  
+    f1=-log([0.1; 0.8; 0.4;0.6;0.1;0.5;0.1;0.8;0.4;0.6;0.1;0.5])  
+    b=M'*f1  
+    x0=zeros([9,1])  
+
+    x=A\b
+    x = [1.3111,0.2610,0.3733,0.4240,-0.4110,-0.6144,0.7092,0.9086]
+
+$x_i=log(\frac{1}{r_i})$ will be negative when $r_i$ is greater than 1. But $r_i$ is a proportion of X-ray transmission so must be between 0 and 1.
+
+d)
+We need to constrain the problem to feasible values of $x_i$ which must be non-negative.
+Call function
+
+    xk=QuadGradProject(A,b,C,x0,x0)
+
+$x_1$ = (0,1.8546,0,0,0,0,0,0,0)  
+$x_2$ = (0,1.8546,0,0,0,0,0,0,1.3040)  
+
+$x_{n-1}$ = (0.8365,1.3810,0,0.1514,0.3510,0,0,0.5555,0.7230)  
+$x_{n}$ = (0.8365,1.3811,0,0.1514,0.3510,0,0,0.5555,0.7230)  
+
+
+e)
+$x_2$ which corresponds to scan block $r_2$ has the highest 'pseudo-density' and is therefore most likely to contain the tumour.
+
